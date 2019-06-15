@@ -6,3 +6,5 @@ pyyaml==4.2b1
 
 chainer==7.0.0a1
 chainerui==0.9.0
+
+ipython

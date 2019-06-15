@@ -144,9 +144,8 @@ class BiLSTM_CRF(chainer.Chain):
     def __call__(self, inputs, outputs, **kwargs):
         features = self.__extract__(inputs, **kwargs)
         loss = self.crf(features, outputs, transpose=True)
-
-        _, pathes = self.crf.argmax(features, transpose=True)
         reporter.report({'loss': loss}, self)
+        print(loss)
         return loss
 
     def predict(self, batch, **kwargs):
@@ -217,5 +216,13 @@ class BiLSTM_CRF(chainer.Chain):
 
         h_0, c_0 = self.create_init_state(shape)
         _, _, hs = self.word_level_bilstm(h_0, c_0, lstm_inputs)
+
+
+        shape = [(6, 200), (2, 200), (8, 200), (1, 200), (2, 200), (17, 200), (11, 200), (5, 200), (31, 200), (5, 200)]
+        if [h.shape for h in hs] == shape:
+            import IPython; IPython.embed()
+
+
+
         features = [self.linear(h) for h in hs]
         return features
